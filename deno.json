@@ -7,5 +7,13 @@
     "@slack/bolt": "npm:@slack/bolt@^4.1.0",
     "@std/assert": "jsr:@std/assert@1",
     "@std/dotenv": "jsr:@std/dotenv@^0.225.2"
+  },
+  "deploy": {
+    "project": "bfb951cf-310c-4e5c-b374-53c43bfec8d4",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "main.ts"
   }
 }
