@@ -1,7 +1,8 @@
 import "@std/dotenv/load";
 import { getDailyReport } from "./daily_report.ts";
-import Slack from "@slack/bolt";
+import { app } from "./slack.ts";
 import env from "./env.ts";
+
 
 const blocksTest = [
   {
@@ -15,11 +16,6 @@ const blocksTest = [
 ];
 
 Deno.cron("slack notification", "30 3 * * *", async () => {
-  const app = new Slack.App({
-    signingSecret: env.SLACK_SIGNING_SECRET,
-    token: env.SLACK_BOT_TOKEN,
-  });
-
   const { newOrders, totalCredit, totalDebit, date } = await getDailyReport();
   const blocks = [
     {
@@ -59,11 +55,6 @@ Deno.cron("slack notification", "30 3 * * *", async () => {
 });
 
 Deno.cron("test", "*/2 * * * *", async () => {
-  const app = new Slack.App({
-    signingSecret: env.SLACK_SIGNING_SECRET,
-    token: env.SLACK_BOT_TOKEN,
-  });
-
   await app.client.chat.postMessage({
     text: "Hi :wave:",
     blocks: blocksTest,
