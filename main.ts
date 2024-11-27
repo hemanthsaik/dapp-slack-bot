@@ -39,13 +39,13 @@ const app = new Slack.App({
   token: env.SLACK_BOT_TOKEN,
 });
 
-// Deno.cron("slack notification", "30 3 * * *", async () => {
+Deno.cron("slack notification", "30 3 * * *", async () => {
   await app.client.chat.postMessage({
     text: "Hi :wave:",
     blocks,
     channel: env.SLACK_CHANEL!,
   });
-// });
+});
 // Deno.cron("slack notification", "*/1 * * * *", async () => {
 //   await app.client.chat.postMessage({
 //     text: "Hi @channel :wave:",
