@@ -94,3 +94,47 @@ export const getDailyReport = async () => {
     throw error;
   }
 };
+
+export const getActiveOrders = async () => {
+  const query = `
+    query GetActiveBookings {
+      activeBookings:bookings_aggregate(where: {machine_status: {_eq: "ORDER_COMPLETED"}, is_suspended: {_eq: false}}) {
+    aggregate {
+      count
+    }
+  }
+    }
+  `;
+
+  try {
+    const response = await fetch(GRAPHQL_ENDPOINT!, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-hasura-admin-secret": GRAPHQL_ADMIN_SECRET!,
+      },
+      body: JSON.stringify({
+        query,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.errors) {
+      throw new Error(
+        `GraphQL errors: ${JSON.stringify(data.errors)}`,
+      );
+    }
+
+    return {
+      activeBookings: data.data.activeBookings.aggregate.count as string,
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
