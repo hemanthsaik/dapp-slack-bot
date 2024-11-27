@@ -3,19 +3,7 @@ import { getDailyReport } from "./daily_report.ts";
 import { app } from "./slack.ts";
 import env from "./env.ts";
 
-
-const blocksTest = [
-  {
-    "type": "section",
-    "text": {
-      "type": "plain_text",
-      "text": "Hi :wave: This is a test",
-      "emoji": true,
-    },
-  },
-];
-
-Deno.cron("slack notification", "30 3 * * *", async () => {
+Deno.cron("slack Daily notification", "30 3 * * *", async () => {
   const { newOrders, totalCredit, totalDebit, date } = await getDailyReport();
   const blocks = [
     {
@@ -54,10 +42,20 @@ Deno.cron("slack notification", "30 3 * * *", async () => {
   });
 });
 
-Deno.cron("test", "*/2 * * * *", async () => {
-  await app.client.chat.postMessage({
-    text: "Hi :wave:",
-    blocks: blocksTest,
-    channel: env.SLACK_CHANEL!,
-  });
-});
+// Deno.cron("test", "*/2 * * * *", async () => {
+//   const blocksTest = [
+//     {
+//       "type": "section",
+//       "text": {
+//         "type": "plain_text",
+//         "text": "Hi :wave: This is a test",
+//         "emoji": true,
+//       },
+//     },
+//   ];
+//   await app.client.chat.postMessage({
+//     text: "Hi :wave:",
+//     blocks: blocksTest,
+//     channel: env.SLACK_CHANEL!,
+//   });
+// });
