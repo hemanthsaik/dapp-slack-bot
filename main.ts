@@ -14,12 +14,12 @@ const blocksTest = [
   },
 ];
 
-const app = new Slack.App({
-  signingSecret: env.SLACK_SIGNING_SECRET,
-  token: env.SLACK_BOT_TOKEN,
-});
-
 Deno.cron("slack notification", "30 3 * * *", async () => {
+  const app = new Slack.App({
+    signingSecret: env.SLACK_SIGNING_SECRET,
+    token: env.SLACK_BOT_TOKEN,
+  });
+
   const { newOrders, totalCredit, totalDebit, date } = await getDailyReport();
   const blocks = [
     {
@@ -59,6 +59,11 @@ Deno.cron("slack notification", "30 3 * * *", async () => {
 });
 
 Deno.cron("test", "*/2 * * * *", async () => {
+  const app = new Slack.App({
+    signingSecret: env.SLACK_SIGNING_SECRET,
+    token: env.SLACK_BOT_TOKEN,
+  });
+
   await app.client.chat.postMessage({
     text: "Hi :wave:",
     blocks: blocksTest,
