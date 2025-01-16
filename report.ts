@@ -143,7 +143,7 @@ export const getUsersCount = async () => {
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth() + 1; // JavaScript months are 0-indexed, add 1 to get the correct month number
-  const day = date.getDate();
+  const day = date.getDate() - 1; // Subtract 1 to get the previous day
 
   const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
     day < 10 ? "0" : ""
