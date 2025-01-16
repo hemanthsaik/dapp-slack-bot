@@ -44,14 +44,16 @@ export const getDailyReport = async () => {
   `;
 
   const variables = {
-    startOfDay: new Date(new Date().setDate(new Date().getDate() - 1))
-      .toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-      .replace(", ", "T")
-      .split("T")[0] + "T00:00:00+05:30",
-    endOfDay: new Date(new Date().setDate(new Date().getDate() - 1))
-      .toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
-      .replace(", ", "T")
-      .split("T")[0] + "T23:59:59+05:30",
+    startOfDay:
+      new Date(new Date().setDate(new Date().getDate() - 1))
+        .toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+        .replace(", ", "T")
+        .split("T")[0] + "T00:00:00+05:30",
+    endOfDay:
+      new Date(new Date().setDate(new Date().getDate() - 1))
+        .toLocaleString("en-US", { timeZone: "Asia/Kolkata" })
+        .replace(", ", "T")
+        .split("T")[0] + "T23:59:59+05:30",
   };
 
   try {
@@ -74,14 +76,14 @@ export const getDailyReport = async () => {
     const data = await response.json();
 
     if (data.errors) {
-      throw new Error(
-        `GraphQL errors: ${JSON.stringify(data.errors)}`,
-      );
+      throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
     }
 
     const [month, day, year] = new Date(
-      new Date().setDate(new Date().getDate() - 1),
-    ).toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" }).split("/");
+      new Date().setDate(new Date().getDate() - 1)
+    )
+      .toLocaleDateString("en-US", { timeZone: "Asia/Kolkata" })
+      .split("/");
 
     return {
       date: `${day}-${month}-${year}`,
@@ -125,13 +127,45 @@ export const getActiveOrders = async () => {
     const data = await response.json();
 
     if (data.errors) {
-      throw new Error(
-        `GraphQL errors: ${JSON.stringify(data.errors)}`,
-      );
+      throw new Error(`GraphQL errors: ${JSON.stringify(data.errors)}`);
     }
 
     return {
       activeBookings: data.data.activeBookings.aggregate.count as string,
+    };
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    throw error;
+  }
+};
+
+export const getUsersCount = async () => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth() + 1; // JavaScript months are 0-indexed, add 1 to get the correct month number
+  const day = date.getDate();
+
+  const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
+    day < 10 ? "0" : ""
+  }${day}`;
+
+  try {
+    const response = await fetch(
+      `https://form-collection.subscriptions-653.workers.dev/users/count/${formattedDate}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+
+    return {
+      count: data.count as string,
+      date: data.date as string,
     };
   } catch (error) {
     console.error("Error fetching data:", error);
