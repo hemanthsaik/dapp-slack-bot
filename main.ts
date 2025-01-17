@@ -59,7 +59,7 @@ Deno.cron("user notification", "30 3 * * *", async () => {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `here is solana waitlist notification for date: \`${date}\`: \`${count}\``,
+        text: `\`${count}\` users has waitlisted for solana node sale on 16-1-2025`,
       },
     },
   ];

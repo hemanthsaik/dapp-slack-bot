@@ -165,7 +165,7 @@ export const getUsersCount = async () => {
 
     return {
       count: data.count as string,
-      date: data.date as string,
+      date: `${day}-${month}-${year}`,
     };
   } catch (error) {
     console.error("Error fetching data:", error);
