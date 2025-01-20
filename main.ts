@@ -45,7 +45,7 @@ Deno.cron("slack Daily notification", "30 3 * * *", async () => {
 // create a cron to send user notification on "30 3 * * *"
 
 Deno.cron("user notification", "30 3 * * *", async () => {
-  const { count, date } = await getUsersCount();
+  const { yesterday, total, date } = await getUsersCount();
   const blocks = [
     {
       type: "section",
@@ -59,7 +59,8 @@ Deno.cron("user notification", "30 3 * * *", async () => {
       type: "section",
       text: {
         type: "mrkdwn",
-        text: `\`${count}\` users has waitlisted for solana node sale on \`${date}\``,
+        text: `\`${yesterday}\` users has waitlisted for solana node sale on \`${date}\`
+        \n \`${total}\` users has waitlisted for solana node sale in total`,
       },
     },
   ];
