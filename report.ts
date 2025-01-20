@@ -164,8 +164,8 @@ export const getUsersCount = async () => {
     const data = await response.json();
 
     return {
-      total: data.total as string,
-      yesterday: data.yesterday as string,
+      total: data.statistics.total as string,
+      yesterday: data.statistics.yesterday as string,
       date: `${day}-${month}-${year}`,
     };
   } catch (error) {
