@@ -140,18 +140,9 @@ export const getActiveOrders = async () => {
 };
 
 export const getUsersCount = async () => {
-  const date = new Date();
-  const year = date.getFullYear();
-  const month = date.getMonth() + 1; // JavaScript months are 0-indexed, add 1 to get the correct month number
-  const day = date.getDate() - 1; // Subtract 1 to get the previous day
-
-  const formattedDate = `${year}-${month < 10 ? "0" : ""}${month}-${
-    day < 10 ? "0" : ""
-  }${day}`;
-
   try {
     const response = await fetch(
-      `https://form-collection.subscriptions-653.workers.dev/users/count/${formattedDate}`,
+      `https://form-collection.subscriptions-653.workers.dev/users/count/latest`,
       {
         method: "GET",
       }
@@ -165,8 +156,7 @@ export const getUsersCount = async () => {
 
     return {
       total: data.statistics.total as string,
-      yesterday: data.statistics.yesterday as string,
-      date: `${day}-${month}-${year}`,
+      yesterday: data.statistics.last_24_hours as string,
     };
   } catch (error) {
     console.error("Error fetching data:", error);
