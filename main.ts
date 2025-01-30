@@ -44,34 +44,34 @@ Deno.cron("slack Daily notification", "30 3 * * *", async () => {
 
 // create a cron to send user notification on "30 3 * * *"
 // async function main() {
+//   // Deno.cron("user notification", "30 3 * * *", async () => {
+//   const { yesterday, total } = await getUsersCount();
+//   const blocks = [
+//     {
+//       type: "section",
+//       text: {
+//         type: "plain_text",
+//         text: "Hi :wave:",
+//         emoji: true,
+//       },
+//     },
+//     {
+//       type: "section",
+//       text: {
+//         type: "mrkdwn",
+//         text:
+//           `\`${yesterday}\` users waitlisted for solana node sale in the last \`24 hours \`
+//         \n \`${total}\` users has waitlisted for solana node sale in total`,
+//       },
+//     },
+//   ];
 
-Deno.cron("user notification", "30 3 * * *", async () => {
-  const { yesterday, total } = await getUsersCount();
-  const blocks = [
-    {
-      type: "section",
-      text: {
-        type: "plain_text",
-        text: "Hi :wave:",
-        emoji: true,
-      },
-    },
-    {
-      type: "section",
-      text: {
-        type: "mrkdwn",
-        text: `\`${yesterday}\` users waitlisted for solana node sale in the last \`24 hours \`
-        \n \`${total}\` users has waitlisted for solana node sale in total`,
-      },
-    },
-  ];
-
-  await app.client.chat.postMessage({
-    text: "Hi :wave: check solana waitlist",
-    blocks,
-    channel: env.SLACK_CHANEL!,
-  });
-});
+//   await app.client.chat.postMessage({
+//     text: "Hi :wave: check solana waitlist",
+//     blocks,
+//     channel: env.SLACK_CHANEL!,
+//   });
+//   // });
 // }
 // Deno.cron("every 6 hours notification", "0 */6 * * *", async () => {
 //   const { activeBookings } = await getActiveOrders();
